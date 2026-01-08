@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<! DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -45,7 +45,7 @@
         linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
-      animation: borderFlow 8s ease infinite;
+      animation:  borderFlow 8s ease infinite;
       z-index: 100;
       pointer-events: none;
     }
@@ -99,10 +99,10 @@
     .vortex-center {
       position: absolute;
       top: 50%;
-      left: 50%;
+      left:  50%;
       width: 100px;
       height: 100px;
-      margin: -50px 0 0 -50px;
+      margin:  -50px 0 0 -50px;
       background: radial-gradient(circle, rgba(255, 0, 255, 0.4), rgba(0, 255, 255, 0.2), transparent);
       border-radius: 50%;
       animation: centerPulse 3s ease-in-out infinite;
@@ -113,7 +113,7 @@
 
     @keyframes centerPulse {
       0%, 100% {
-        transform: scale(1);
+        transform:  scale(1);
         box-shadow: 
           0 0 40px rgba(255, 0, 255, 0.6),
           0 0 80px rgba(0, 255, 255, 0.4);
@@ -136,19 +136,19 @@
       animation: ringRotate 20s linear infinite;
     }
 
-    .ring-1 {
-      width: 150px;
+    . ring-1 {
+      width:  150px;
       height: 150px;
       margin: -75px 0 0 -75px;
       border-color: rgba(255, 0, 255, 0.6) transparent rgba(255, 0, 255, 0.6) transparent;
       animation-duration: 15s;
     }
 
-    .ring-2 {
+    . ring-2 {
       width: 220px;
       height: 220px;
       margin: -110px 0 0 -110px;
-      border-color: transparent rgba(0, 255, 255, 0.5) transparent rgba(0, 255, 255, 0.5);
+      border-color:  transparent rgba(0, 255, 255, 0.5) transparent rgba(0, 255, 255, 0.5);
       animation-duration: 20s;
       animation-direction: reverse;
     }
@@ -157,7 +157,7 @@
       width: 290px;
       height: 290px;
       margin: -145px 0 0 -145px;
-      border-color: rgba(255, 0, 255, 0.4) transparent rgba(255, 0, 255, 0.4) transparent;
+      border-color:  rgba(255, 0, 255, 0.4) transparent rgba(255, 0, 255, 0.4) transparent;
       animation-duration: 25s;
     }
 
@@ -165,7 +165,7 @@
       width: 360px;
       height: 360px;
       margin: -180px 0 0 -180px;
-      border-color: transparent rgba(0, 255, 255, 0.3) transparent rgba(0, 255, 255, 0.3);
+      border-color:  transparent rgba(0, 255, 255, 0.3) transparent rgba(0, 255, 255, 0.3);
       animation-duration: 30s;
       animation-direction: reverse;
     }
@@ -184,7 +184,7 @@
       animation: particleFloat 8s ease-in-out infinite;
     }
 
-    .particle:nth-child(1) {
+    . particle:nth-child(1) {
       width: 5px;
       height: 5px;
       top: 20%;
@@ -200,7 +200,7 @@
       animation-delay: 1s;
     }
 
-    .particle:nth-child(3) {
+    . particle:nth-child(3) {
       width: 4px;
       height: 4px;
       top: 60%;
@@ -219,7 +219,7 @@
     @keyframes particleFloat {
       0%, 100% {
         opacity: 0;
-        transform: translateY(0) scale(1);
+        transform:  translateY(0) scale(1);
       }
       50% {
         opacity: 0.8;
@@ -230,7 +230,7 @@
     /* Pulsing Waves */
     .wave {
       position: absolute;
-      top: 50%;
+      top:  50%;
       left: 50%;
       border: 2px solid;
       border-radius: 50%;
@@ -238,12 +238,12 @@
       animation: wavePulse 4s ease-out infinite;
     }
 
-    .wave:nth-child(1) {
+    . wave:nth-child(1) {
       border-color: rgba(255, 0, 255, 0.4);
       animation-delay: 0s;
     }
 
-    .wave:nth-child(2) {
+    . wave:nth-child(2) {
       border-color: rgba(0, 255, 255, 0.4);
       animation-delay: 2s;
     }
@@ -297,9 +297,9 @@
       50% { background-position: 100% 50%; }
     }
 
-    .subtitle {
+    . subtitle {
       font-family: 'Audiowide', monospace;
-      font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+      font-size:  clamp(0.9rem, 2.5vw, 1.2rem);
       letter-spacing: 0.3em;
       color: #00ffff;
       text-shadow: 
@@ -323,18 +323,18 @@
       backdrop-filter: blur(20px);
       border: 3px solid rgba(255, 0, 255, 0.6);
       border-radius: 15px;
-      padding: clamp(15px, 3vw, 25px) clamp(12px, 2.5vw, 20px);
-      min-width: clamp(80px, 16vw, 120px);
+      padding: clamp(15px, 3vw, 25px) clamp(12px, 2. 5vw, 20px);
+      width: clamp(100px, 18vw, 140px);
       position: relative;
       overflow: hidden;
-      box-shadow:
+      box-shadow: 
         0 0 30px rgba(255, 0, 255, 0.5),
         0 0 60px rgba(0, 255, 255, 0.25);
       animation: boxPulse 2s ease-in-out infinite;
       animation-delay: var(--delay);
     }
 
-    .timer-box:nth-child(1) { --delay: 0s; }
+    . timer-box: nth-child(1) { --delay: 0s; }
     .timer-box:nth-child(2) { --delay: 0.2s; }
     .timer-box:nth-child(3) { --delay: 0.4s; }
     .timer-box:nth-child(4) { --delay: 0.6s; }
@@ -342,7 +342,7 @@
     @keyframes boxPulse {
       0%, 100% {
         border-color: rgba(255, 0, 255, 0.6);
-        box-shadow:
+        box-shadow: 
           0 0 30px rgba(255, 0, 255, 0.5),
           0 0 60px rgba(0, 255, 255, 0.25);
       }
@@ -354,7 +354,7 @@
       }
     }
 
-    .timer-box::before {
+    . timer-box:: before {
       content: '';
       position: absolute;
       top: -2px;
@@ -375,17 +375,19 @@
       50% { background-position: 100% 50%; }
     }
 
-    .timer-value {
+    . timer-value {
       font-family: 'Orbitron', monospace;
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-size: clamp(2. 5rem, 8vw, 4. 5rem);
       font-weight: 900;
       color: #fff;
-      text-shadow: 
+      text-shadow:  
         0 0 20px rgba(0, 255, 255, 1),
         0 0 40px rgba(0, 255, 255, 0.6);
       line-height: 1;
       margin-bottom: 8px;
       animation: digitGlow 2s ease-in-out infinite;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
     }
 
     @keyframes digitGlow {
@@ -401,7 +403,7 @@
       }
     }
 
-    .timer-label {
+    . timer-label {
       font-family: 'Rajdhani', monospace;
       font-size: clamp(0.7rem, 1.8vw, 0.95rem);
       font-weight: 700;
@@ -415,18 +417,18 @@
     .status-message {
       font-family: 'Audiowide', monospace;
       font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-      letter-spacing: 0.12em;
+      letter-spacing:  0.12em;
       text-transform: uppercase;
       padding: clamp(12px, 2vh, 18px) clamp(20px, 4vw, 35px);
-      border: 3px solid;
+      border:  3px solid;
       border-radius: 12px;
-      margin-top: clamp(15px, 2.5vh, 25px);
+      margin-top: clamp(15px, 2. 5vh, 25px);
       backdrop-filter: blur(10px);
       animation: messagePulse 2s ease-in-out infinite;
       display: inline-block;
     }
 
-    .status-active {
+    . status-active {
       color: #00ffff;
       border-color: #00ffff;
       background: rgba(0, 255, 255, 0.1);
@@ -437,7 +439,7 @@
 
     .status-warning {
       color: #ffaa00;
-      border-color: #ffaa00;
+      border-color:  #ffaa00;
       background: rgba(255, 170, 0, 0.1);
       box-shadow: 
         0 0 25px rgba(255, 170, 0, 0.5),
@@ -447,16 +449,16 @@
     .status-critical {
       color: #ff0066;
       border-color: #ff0066;
-      background: rgba(255, 0, 102, 0.1);
+      background:  rgba(255, 0, 102, 0.1);
       box-shadow: 
         0 0 25px rgba(255, 0, 102, 0.5),
         inset 0 0 15px rgba(255, 0, 102, 0.1);
       animation: criticalPulse 1s ease-in-out infinite;
     }
 
-    .status-complete {
+    . status-complete {
       color: #00ff00;
-      border-color: #00ff00;
+      border-color:  #00ff00;
       background: rgba(0, 255, 0, 0.1);
       box-shadow: 
         0 0 25px rgba(0, 255, 0, 0.5),
@@ -525,8 +527,8 @@
         gap: 10px;
       }
 
-      .timer-box {
-        min-width: calc(50% - 10px);
+      . timer-box {
+        width:  calc(50% - 10px);
       }
     }
 
@@ -536,8 +538,8 @@
         height: 280px;
       }
 
-      .timer-box {
-        min-width: calc(50% - 8px);
+      . timer-box {
+        width: calc(50% - 8px);
         padding: 12px 8px;
       }
     }
@@ -555,7 +557,7 @@
         margin-bottom: 15px;
       }
 
-      .status-message {
+      . status-message {
         margin-top: 12px;
       }
 
@@ -569,7 +571,7 @@
       * {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: 0.01ms ! important;
       }
     }
   </style>
@@ -657,7 +659,7 @@
       const totalMinutes = hours * 60 + minutes;
 
       if (hours === 0 && minutes === 0) {
-        statusMsg.textContent = '🎉 HACKATHON COMPLETE! 🎉';
+        statusMsg. textContent = '🎉 HACKATHON COMPLETE!  🎉';
         statusMsg.className = 'status-message status-complete';
       } else if (totalMinutes <= 60) {
         statusMsg.textContent = '🔥 FINAL HOUR - PUSH LIMITS! 🔥';
@@ -673,12 +675,12 @@
         statusMsg.className = 'status-message status-warning';
       } else {
         statusMsg.textContent = '⚡ READY TO BEGIN ⚡';
-        statusMsg.className = 'status-message status-active';
+        statusMsg. className = 'status-message status-active';
       }
     }
 
     function updateTimer() {
-      if (!endTime) return;
+      if (! endTime) return;
 
       const now = new Date().getTime();
       const distance = endTime - now;
@@ -761,7 +763,7 @@
       if (event.code === 'Space') {
         event.preventDefault();
         toggleTimer();
-      } else if (event.key.toLowerCase() === 's') {
+      } else if (event. key. toLowerCase() === 's') {
         event.preventDefault();
         stopTimer();
         updateDisplay(24, 0, 0, 0);
