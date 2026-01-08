@@ -312,7 +312,8 @@
     .timer-container {
       display: flex;
       justify-content: center;
-      gap: clamp(12px, 3vw, 30px);
+      align-items: center;
+      gap: clamp(15px, 3vw, 25px);
       flex-wrap: wrap;
       margin-bottom: clamp(20px, 3vh, 30px);
     }
@@ -323,35 +324,21 @@
       backdrop-filter: blur(20px);
       border: 3px solid rgba(255, 0, 255, 0.6);
       border-radius: 15px;
-      padding: clamp(15px, 3vw, 25px) clamp(12px, 2.5vw, 20px);
-      min-width: clamp(80px, 16vw, 120px);
+      padding: clamp(15px, 3vw, 25px) clamp(15px, 3vw, 25px);
+      width: clamp(110px, 20vw, 150px);
       position: relative;
       overflow: hidden;
       box-shadow:
         0 0 30px rgba(255, 0, 255, 0.5),
         0 0 60px rgba(0, 255, 255, 0.25);
-      animation: boxPulse 2s ease-in-out infinite;
-      animation-delay: var(--delay);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-
-    .timer-box:nth-child(1) { --delay: 0s; }
-    .timer-box:nth-child(2) { --delay: 0.2s; }
-    .timer-box:nth-child(3) { --delay: 0.4s; }
-    .timer-box:nth-child(4) { --delay: 0.6s; }
-
-    @keyframes boxPulse {
-      0%, 100% {
-        border-color: rgba(255, 0, 255, 0.6);
-        box-shadow:
-          0 0 30px rgba(255, 0, 255, 0.5),
-          0 0 60px rgba(0, 255, 255, 0.25);
-      }
-      50% {
-        border-color: rgba(0, 255, 255, 0.8);
-        box-shadow:
-          0 0 40px rgba(0, 255, 255, 0.6),
-          0 0 80px rgba(255, 0, 255, 0.3);
-      }
+    
+    .timer-box.milliseconds-box {
+      width: clamp(170px, 28vw, 220px);
     }
 
     .timer-box::before {
@@ -377,19 +364,21 @@
 
     .timer-value {
       font-family: 'Orbitron', monospace;
-      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-size: clamp(2rem, 6.5vw, 3.8rem);
       font-weight: 900;
       color: #fff;
       text-shadow: 
         0 0 20px rgba(0, 255, 255, 1),
         0 0 40px rgba(0, 255, 255, 0.6);
-      line-height: 1;
-      margin-bottom: 8px;
+      line-height: 1.1;
+      margin-bottom: 10px;
       animation: digitGlow 2s ease-in-out infinite;
       font-variant-numeric: tabular-nums;
-      display: inline-block;
-      min-width: 2.2ch;
+      display: block;
       text-align: center;
+      width: 100%;
+      letter-spacing: 0.05em;
+      padding: 0 5px;
     }
 
     @keyframes digitGlow {
@@ -407,12 +396,16 @@
 
     .timer-label {
       font-family: 'Rajdhani', monospace;
-      font-size: clamp(0.7rem, 1.8vw, 0.95rem);
+      font-size: clamp(0.7rem, 1.6vw, 0.9rem);
       font-weight: 700;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: #ff00ff;
       text-shadow: 0 0 10px rgba(255, 0, 255, 0.6);
+      text-align: center;
+      width: 100%;
+      display: block;
+      white-space: nowrap;
     }
 
     /* Status Messages */
@@ -526,11 +519,17 @@
       }
 
       .timer-container {
-        gap: 10px;
+        gap: 12px;
       }
 
       .timer-box {
-        min-width: calc(50% - 10px);
+        width: calc(50% - 12px);
+        max-width: 180px;
+      }
+      
+      .timer-box.milliseconds-box {
+        width: calc(50% - 12px);
+        max-width: 200px;
       }
     }
 
@@ -540,9 +539,26 @@
         height: 280px;
       }
 
+      .timer-container {
+        gap: 10px;
+      }
+
       .timer-box {
-        min-width: calc(50% - 8px);
-        padding: 12px 8px;
+        width: calc(50% - 10px);
+        padding: 15px 10px;
+      }
+      
+      .timer-box.milliseconds-box {
+        width: calc(50% - 10px);
+        min-width: 140px;
+      }
+      
+      .timer-value {
+        font-size: clamp(1.8rem, 9vw, 2.8rem);
+      }
+      
+      .timer-label {
+        font-size: clamp(0.6rem, 3vw, 0.75rem);
       }
     }
 
@@ -617,7 +633,7 @@
         <div class="timer-value" id="seconds">00</div>
         <div class="timer-label">Seconds</div>
       </div>
-      <div class="timer-box">
+      <div class="timer-box milliseconds-box">
         <div class="timer-value" id="milliseconds">000</div>
         <div class="timer-label">Milliseconds</div>
       </div>
