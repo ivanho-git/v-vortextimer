@@ -335,6 +335,23 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .timer-box:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 255, 255, 0.8);
+      box-shadow:
+        0 0 40px rgba(0, 255, 255, 0.6),
+        0 0 80px rgba(255, 0, 255, 0.35);
+    }
+    
+    .timer-box.editing {
+      border-color: #00ff00;
+      box-shadow:
+        0 0 40px rgba(0, 255, 0, 0.6),
+        0 0 80px rgba(0, 255, 0, 0.3);
     }
     
     .timer-box.milliseconds-box {
@@ -511,6 +528,72 @@
       }
     }
 
+    /* Help Panel */
+    .help-panel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(5, 0, 15, 0.95);
+      border: 2px solid rgba(0, 255, 255, 0.5);
+      border-radius: 10px;
+      padding: 15px 20px;
+      font-family: 'Rajdhani', monospace;
+      font-size: 0.85rem;
+      color: #00ffff;
+      text-align: left;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      z-index: 1000;
+      max-width: 300px;
+    }
+
+    .help-panel h3 {
+      font-family: 'Audiowide', monospace;
+      font-size: 1rem;
+      color: #ff00ff;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .help-panel p {
+      margin: 5px 0;
+      line-height: 1.4;
+    }
+
+    .help-panel strong {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .help-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(5, 0, 15, 0.95);
+      border: 2px solid rgba(0, 255, 255, 0.5);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Audiowide', monospace;
+      font-size: 1.2rem;
+      color: #00ffff;
+      cursor: pointer;
+      z-index: 1001;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+
+    .help-toggle:hover {
+      background: rgba(0, 255, 255, 0.2);
+      border-color: #00ffff;
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+      transform: scale(1.1);
+    }
+
     /* Mobile Responsive */
     @media (max-width: 768px) {
       .css-logo {
@@ -530,6 +613,21 @@
       .timer-box.milliseconds-box {
         width: calc(50% - 12px);
         max-width: 200px;
+      }
+
+      .help-panel {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+        font-size: 0.75rem;
+      }
+
+      .help-toggle {
+        bottom: 10px;
+        right: 10px;
+        width: 45px;
+        height: 45px;
       }
     }
 
@@ -621,19 +719,19 @@
 
     <!-- Timer -->
     <div class="timer-container">
-      <div class="timer-box">
+      <div class="timer-box" data-unit="hours">
         <div class="timer-value" id="hours">24</div>
         <div class="timer-label">Hours</div>
       </div>
-      <div class="timer-box">
+      <div class="timer-box" data-unit="minutes">
         <div class="timer-value" id="minutes">00</div>
         <div class="timer-label">Minutes</div>
       </div>
-      <div class="timer-box">
+      <div class="timer-box" data-unit="seconds">
         <div class="timer-value" id="seconds">00</div>
         <div class="timer-label">Seconds</div>
       </div>
-      <div class="timer-box milliseconds-box">
+      <div class="timer-box milliseconds-box" data-unit="milliseconds">
         <div class="timer-value" id="milliseconds">000</div>
         <div class="timer-label">Milliseconds</div>
       </div>
@@ -652,12 +750,30 @@
     </div>
   </div>
 
+  <!-- Help Toggle Button -->
+  <div class="help-toggle" id="helpToggle">?</div>
+
+  <!-- Help Panel -->
+  <div class="help-panel" id="helpPanel" style="display: none;">
+    <h3>⌨️ Keyboard Controls</h3>
+    <p><strong>SPACE:</strong> Start/Pause timer</p>
+    <p><strong>R:</strong> Reset to 24:00:00</p>
+    <p><strong>S:</strong> Stop timer</p>
+    <p><strong>T:</strong> Set custom time</p>
+    <p><strong>1-9:</strong> Quick set (1=1hr, 5=5hr, etc.)</p>
+    <p><strong>Click box:</strong> Edit time directly</p>
+    <p><strong>ESC:</strong> Cancel editing</p>
+    <p><strong>?:</strong> Toggle this help</p>
+  </div>
+
   <script>
     let countdownInterval = null;
     let endTime = null;
     let remainingTime = 24 * 60 * 60 * 1000;
     let isRunning = false;
     let isPaused = false;
+    let editingUnit = null;
+    let tempInput = '';
 
     function pad(num, size = 2) {
       let s = num + "";
@@ -691,6 +807,9 @@
       } else if (isPaused) {
         statusMsg.textContent = '⏸️ PAUSED ⏸️';
         statusMsg.className = 'status-message status-warning';
+      } else if (editingUnit) {
+        statusMsg.textContent = `✏️ EDITING ${editingUnit.toUpperCase()} ✏️`;
+        statusMsg.className = 'status-message status-warning';
       } else {
         statusMsg.textContent = '⚡ READY TO BEGIN ⚡';
         statusMsg.className = 'status-message status-active';
@@ -722,7 +841,7 @@
     }
 
     function startTimer() {
-      if (isRunning) return;
+      if (isRunning || editingUnit) return;
 
       const now = new Date().getTime();
       endTime = now + remainingTime;
@@ -759,16 +878,17 @@
       clearInterval(countdownInterval);
       countdownInterval = null;
       endTime = null;
-      remainingTime = 24 * 60 * 60 * 1000;
     }
 
     function resetTimer() {
       stopTimer();
+      remainingTime = 24 * 60 * 60 * 1000;
       updateDisplay(24, 0, 0, 0);
       updateStatus(24, 0);
     }
 
     function toggleTimer() {
+      if (editingUnit) return;
       if (isRunning) {
         pauseTimer();
       } else {
@@ -776,20 +896,182 @@
       }
     }
 
+    function setCustomTime(hours, minutes, seconds) {
+      stopTimer();
+      hours = Math.max(0, Math.min(99, hours));
+      minutes = Math.max(0, Math.min(59, minutes));
+      seconds = Math.max(0, Math.min(59, seconds));
+      
+      remainingTime = (hours * 60 * 60 + minutes * 60 + seconds) * 1000;
+      updateDisplay(hours, minutes, seconds, 0);
+      updateStatus(hours, minutes);
+    }
+
+    function promptCustomTime() {
+      if (isRunning) {
+        pauseTimer();
+      }
+      
+      const input = prompt('Enter time (HH:MM:SS or HH:MM or MM):', '01:00:00');
+      if (!input) return;
+
+      const parts = input.split(':').map(p => parseInt(p.trim()) || 0);
+      let hours = 0, minutes = 0, seconds = 0;
+
+      if (parts.length === 3) {
+        [hours, minutes, seconds] = parts;
+      } else if (parts.length === 2) {
+        [hours, minutes] = parts;
+      } else if (parts.length === 1) {
+        minutes = parts[0];
+      }
+
+      setCustomTime(hours, minutes, seconds);
+    }
+
+    function startEditing(unit) {
+      if (isRunning) {
+        pauseTimer();
+      }
+      
+      editingUnit = unit;
+      tempInput = '';
+      
+      // Add editing class
+      document.querySelectorAll('.timer-box').forEach(box => {
+        if (box.dataset.unit === unit) {
+          box.classList.add('editing');
+        }
+      });
+      
+      updateStatus(0, 0);
+    }
+
+    function finishEditing() {
+      if (!editingUnit) return;
+
+      const value = parseInt(tempInput) || 0;
+      const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+      let newHours = hours;
+      let newMinutes = minutes;
+      let newSeconds = seconds;
+
+      switch (editingUnit) {
+        case 'hours':
+          newHours = Math.min(99, value);
+          break;
+        case 'minutes':
+          newMinutes = Math.min(59, value);
+          break;
+        case 'seconds':
+          newSeconds = Math.min(59, value);
+          break;
+      }
+
+      setCustomTime(newHours, newMinutes, newSeconds);
+      cancelEditing();
+    }
+
+    function cancelEditing() {
+      document.querySelectorAll('.timer-box').forEach(box => {
+        box.classList.remove('editing');
+      });
+      
+      editingUnit = null;
+      tempInput = '';
+      
+      const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+      const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+      updateStatus(hours, minutes);
+    }
+
+    function handleNumberInput(num) {
+      if (!editingUnit) return;
+
+      const maxLength = editingUnit === 'milliseconds' ? 3 : 2;
+      
+      if (tempInput.length < maxLength) {
+        tempInput += num;
+        
+        // Update display temporarily
+        const element = document.getElementById(editingUnit);
+        element.textContent = pad(parseInt(tempInput) || 0, maxLength);
+      }
+    }
+
+    // Click on timer boxes to edit
+    document.querySelectorAll('.timer-box').forEach(box => {
+      box.addEventListener('click', (e) => {
+        const unit = box.dataset.unit;
+        if (unit !== 'milliseconds') { // Don't allow editing milliseconds
+          startEditing(unit);
+        }
+      });
+    });
+
     // Keyboard event listeners
     document.addEventListener('keydown', (event) => {
+      // Help toggle
+      if (event.key === '?') {
+        event.preventDefault();
+        const helpPanel = document.getElementById('helpPanel');
+        helpPanel.style.display = helpPanel.style.display === 'none' ? 'block' : 'none';
+        return;
+      }
+
+      // If editing, handle input
+      if (editingUnit) {
+        if (event.key >= '0' && event.key <= '9') {
+          event.preventDefault();
+          handleNumberInput(event.key);
+        } else if (event.key === 'Enter') {
+          event.preventDefault();
+          finishEditing();
+        } else if (event.key === 'Escape') {
+          event.preventDefault();
+          cancelEditing();
+        } else if (event.key === 'Backspace') {
+          event.preventDefault();
+          tempInput = tempInput.slice(0, -1);
+          const maxLength = editingUnit === 'milliseconds' ? 3 : 2;
+          const element = document.getElementById(editingUnit);
+          element.textContent = pad(parseInt(tempInput) || 0, maxLength);
+        }
+        return;
+      }
+
+      // Normal controls
       if (event.code === 'Space') {
         event.preventDefault();
         toggleTimer();
       } else if (event.key.toLowerCase() === 's') {
         event.preventDefault();
         stopTimer();
-        updateDisplay(24, 0, 0, 0);
-        updateStatus(24, 0);
+        const hours = Math.floor(remainingTime / (1000 * 60 * 60));
+        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+        updateDisplay(hours, minutes, seconds, 0);
+        updateStatus(hours, minutes);
       } else if (event.key.toLowerCase() === 'r') {
         event.preventDefault();
         resetTimer();
+      } else if (event.key.toLowerCase() === 't') {
+        event.preventDefault();
+        promptCustomTime();
+      } else if (event.key >= '1' && event.key <= '9') {
+        event.preventDefault();
+        const hours = parseInt(event.key);
+        setCustomTime(hours, 0, 0);
       }
+    });
+
+    // Help toggle button
+    document.getElementById('helpToggle').addEventListener('click', () => {
+      const helpPanel = document.getElementById('helpPanel');
+      helpPanel.style.display = helpPanel.style.display === 'none' ? 'block' : 'none';
     });
 
     // Initialize
